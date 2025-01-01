@@ -1,0 +1,143 @@
+/* General Styling */
+body {
+    font-family: 'Arial', sans-serif;
+    line-height: 1.6;
+    margin: 0;
+    padding: 0;
+    background: linear-gradient(to bottom, #74ebd5, #9face6);
+    color: #333;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+}
+
+h1 {
+    text-align: center;
+    color: #222;
+    margin-bottom: 20px;
+}
+
+.container {
+    background: white;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    max-width: 600px;
+    width: 100%;
+}
+
+/* Buttons */
+a.btn, button.btn {
+    display: inline-block;
+    margin-top: 10px;
+    padding: 10px 20px;
+    text-decoration: none;
+    background-color: #007BFF;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    text-align: center;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+}
+
+a.btn:hover, button.btn:hover {
+    background-color: #0056b3;
+}
+
+/* Transaction List */
+ul.transactions {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    margin-top: 20px;
+}
+
+ul.transactions li {
+    padding: 15px;
+    border-radius: 5px;
+    margin-bottom: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+ul.transactions li.income {
+    background: rgba(46, 204, 113, 0.2);
+    color: #27ae60;
+}
+
+ul.transactions li.expense {
+    background: rgba(231, 76, 60, 0.2);
+    color: #c0392b;
+}
+
+/* Summary Section */
+.summary {
+    background: #f4f6f8;
+    padding: 15px;
+    border-radius: 5px;
+    margin-bottom: 20px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.summary p {
+    font-size: 1.2em;
+    margin: 5px 0;
+}
+
+.summary span.income {
+    color: #27ae60;
+    font-weight: bold;
+}
+
+.summary span.expense {
+    color: #c0392b;
+    font-weight: bold;
+}
+
+/* Form Styling */
+form {
+    margin-top: 20px;
+    padding: 20px;
+    border: 1px solid #ccc;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+form label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: bold;
+}
+
+form input, form select, button {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
+    font-size: 1em;
+}
+
+form button {
+    background-color: #007BFF;
+    color: white;
+    font-size: 1em;
+    cursor: pointer;
+}
+
+form button:hover {
+    background-color: #0056b3;
+}
+
+/* 404 Page */
+h1.error {
+    font-size: 2em;
+    color: #c0392b;
+    text-align: center;
+    margin-top: 50px;
+}
+
