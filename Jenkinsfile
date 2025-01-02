@@ -2,51 +2,51 @@ pipeline {
     agent any
 
     environment {
-        DOCKER_IMAGE = "money-tracker-app"
-        REGISTRY = "your-dockerhub-username"  // Replace with your Docker Hub username
+        DOCKER_IMAGE = "mmohit1271/money-tracker:latest"
     }
 
     stages {
-        stage('Clone Repository') {
+        stage('Checkout') {
             steps {
-                git 'https://github.com/your-username/money-tracker.git' // Replace with your repo URL
+                echo 'Cloning repository...'
+                checkout scm
             }
         }
 
-        stage('Build Docker Image') {
+        stage('Build and Push Docker Image') {
             steps {
                 script {
-                    // Build the Docker image
-                    sh 'docker build -t $REGISTRY/$DOCKER_IMAGE .'
+                    echo 'Building Docker image...'
+                    def appImage = docker.build("${DOCKER_IMAGE}")
+
+                    echo 'Pushing Docker image to Docker Hub...'
+                    docker.withRegistry('', 'docker-hub-credentials') {
+                        appImage.push()
+                    }
                 }
             }
         }
 
-        stage('Push Docker Image') {
+        stage('Deploy Application') {
             steps {
-                script {
-                    // Log in to Docker Hub and push the image
-                    sh "docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD"
-                    sh 'docker push $REGISTRY/$DOCKER_IMAGE'
-                }
-            }
-        }
-
-        stage('Deploy to Server') {
-            steps {
-                script {
-                    // SSH into the server and pull the latest image, then run the container
-                    sh '''
-                        ssh -o StrictHostKeyChecking=no user@your-server-ip << EOF
-                            docker pull $REGISTRY/$DOCKER_IMAGE
-                            docker stop money-tracker || true
-                            docker rm money-tracker || true
-                            docker run -d -p 3000:3000 --name money-tracker $REGISTRY/$DOCKER_IMAGE
-                        EOF
-                    '''
-                }
+                echo 'Deploying the application...'
+                sh """
+                docker rm -f money-tracker || true
+                docker run -d --name money-tracker -p 3000:3000 ${DOCKER_IMAGE}
+                """
             }
         }
     }
-}
 
+    post {
+        always {
+            echo 'Pipeline execution completed.'
+        }
+        success {
+            echo 'Deployment successful.'
+        }
+        failure {
+            echo 'Pipeline failed. Check logs for details.'
+        }
+    }
+}
