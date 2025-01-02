@@ -2,7 +2,7 @@ pipeline {
     agent any
 
     environment {
-        DOCKER_IMAGE = "mmohit1271/money-tracker:latest"
+        DOCKER_IMAGE = "mmohit1271/money-tracker-app:latest"
     }
 
     stages {
@@ -15,15 +15,12 @@ pipeline {
 
         stage('Build and Push Docker Image') {
             steps {
-                script {
-                    echo 'Building Docker image...'
-                    def appImage = docker.build("${DOCKER_IMAGE}")
-
-                    echo 'Pushing Docker image to Docker Hub...'
-                    docker.withRegistry('', 'docker-hub-credentials') {
-                        appImage.push()
-                    }
-                }
+                echo 'Building Docker image...'
+                sh """
+                    docker build -t ${DOCKER_IMAGE} .
+                    docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
+                    docker push ${DOCKER_IMAGE}
+                """
             }
         }
 
@@ -31,8 +28,8 @@ pipeline {
             steps {
                 echo 'Deploying the application...'
                 sh """
-                docker rm -f money-tracker || true
-                docker run -d --name money-tracker -p 3000:3000 ${DOCKER_IMAGE}
+                    docker rm -f money-tracker || true
+                    docker run -d --name money-tracker -p 3000:3000 ${DOCKER_IMAGE}
                 """
             }
         }
